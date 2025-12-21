@@ -1,4 +1,4 @@
-NAME = slice
+NAME = slicer.a
 
 CC = cc
 
@@ -14,7 +14,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+	#$(CC) $(FLAGS) $(SRC) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)

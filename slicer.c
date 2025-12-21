@@ -21,7 +21,10 @@ t_slice	new_slice(size_t size, size_t cap)
 	return (slice);
 }
 
-t_slice	string_slice(const char *data)
+t_slice	slicer(void *data, size_t len, size_t size, char flag)
 {
-	return (slice_from((void *)data, ft_strlen(data), sizeof(char)));
+	if (flag == 'c')
+		return (slice_from(data, ft_strlen((const char *)data), sizeof(char)));
+	return (slice_from(data, len, size));
 }
+
