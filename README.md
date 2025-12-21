@@ -1,4 +1,4 @@
-*This project was developped by rafa-pk in the context of research on memory-safety and C programming.*
+*This project was developped by rafa-pk in the context of research on memory-safety and management in C programming.*
 
 # Introduction
 Throughout my programming journey I've come to peace with how much I like C. I find its querks very interesting
