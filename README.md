@@ -77,9 +77,11 @@ As this is meant to be a library, running make creates a static library called s
 
 ### Work-flow
 - You can use it as a library and compile your program like this:
+> ```
 > make (creates library)
 > cc <flags> <program> slice.a
 > ./a.out
+> ```
 - Or link it to an existing makefile and compile your program as above within your makefile. Which would look something like this:
 > ```
 > $(MAKE) slice.a
