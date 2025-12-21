@@ -5,7 +5,7 @@ Throughout my programming journey I've come to peace with how much I like C. I f
 and its simplicity generally quite joyfull. But when I started trying out higher-level languages such as Go or Python, 
 I couldn't help myself from being amazed with how practical splices are. Its just so convenient to not have to worry about
 getting metadata on things I declare and just be able to call it whenever. So it got me thinking: I like coding in C a lot, 
-but these memory safety features are just so nice to use... **I'll implement them in C!** I immediately started drafting this library.
+but these memory safety features are just so nice to use... **Why dont I implement them in C!** I immediately started drafting this library.
 
 ## What are slices?
 In most higher-level programming languages, slices serve either as views or containers for data, which allows the user to
