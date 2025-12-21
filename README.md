@@ -5,11 +5,12 @@ Throughout my programming journey I've come to peace with how much I like C. I f
 and its simplicity generally quite joyfull. But when I started trying out higher-level languages such as Go or Python, 
 I couldn't help myself from being amazed with how practical splices are. Its just so convenient to not have to worry about
 getting metadata on things I declare and just be able to call it whenever. So it got me thinking: I like coding in C a lot, 
-but these memory safety features are just so nice to use... **I'll implement them in C!**
+but these memory safety features are just so nice to use... **I'll implement them in C!** I immediately started drafting this library.
 
 ## What are slices?
 In most higher-level programming languages, slices serve either as views or containers for data, which allows the user to
-automatically have access to metadata and not have to worry about memory management so much. As mentioned, they work in two ways:
+automatically have access to metadata and not have to worry about memory management so much. They work like arrays or strings, but better.
+As mentioned, they work in two ways:
 - Views: These are simple slices which work as a middle-manager — they contain a pointer to the data and information about it, but
 do not have any type of ownership whatsoever.
 - Containers: These are the real players when it comes to memory-safety, they work as a "host" for the data (and its metadata) and 
@@ -21,17 +22,18 @@ under the hood, making coding a little more confortable.
 ### Why are slices not native in C?
 C is statically-typed, does not support type-inference, is mostly compile-time based and runs on very little abstraction. It's a low-level language.
 
-As you may know, a string is represented as an array of chars, which decays at compile-time to mere pointers to the memory-address of said array.
-This means, when the program is compiled, it loses any metadata about the string, it basically sees this:
+As you may know, a string is represented as an array of chars, which decays at compile-time to a mere pointer to the memory-address of said array.
+This means, when the program is compiled, it loses all metadata it had about the string, it basically sees this:
 > ```
 >  [ADDRESS]: [BYTE][BYTE][BYTE]...
 > ```
-So all available information is lost.
+So the program cannot determine any high-level type of information.
 
 With strings, its generally not a big deal, as they are all NULL-terminated by default — any string length counting function solves the issue, despite being unpractical. 
 However, with general arrays — wether its integer arrays, struct arrays, linked lists... — it requires much more organisation and thinking than it should, as there is no 
 straight-forward way to get the end of the array or itterate through it. The solution is usually to use structs and have an index field, buts its too much of 
 a hassle for the result.
+
 Important definition: when I talk about "metadata", I am refering to the length, capacity (if dynamically allocated) and data-block size.
 
 ### How can we implement this?
@@ -40,19 +42,23 @@ The first thing to do is to create the struct itself, so I declared a struct t_s
 - length
 - capacity
 - block size
+
 After that was done, I started working on some functions. But I quickly realised that because of all the C restrictions I couldn't make a slice-like function. To give some context,
 I wanted my initalization to look like this:
 
 > t_slice var = slice(data);
 
-But it is basically impossible to infer all fields for all data-types just from that, so I had to change my strategy.
+But it is basically impossible to infer every field for any array-type just from that, so I had to change my strategy.
 After some research and conversations with Chat-GPT, I finally decided to settle with macros, eventhough I wanted to avoid it.
+
 What did that change?
-Well, the main issue I had before was that I couldn't compute the length of general-arrays without creating objects pointing to it, and it seemed way too much for the task. Macros are
-essentially text-replacement, so they run before compilation and have access to information that is lost at compile-time, namly: data-type, array-length. This new method now allowed me
-to access pre-compilation information.
+
+Well, the main issue I had before was that I couldn't compute the length of general-arrays without creating an object holding at least a pointer to the array and an index, and it seemed 
+way too much for the task. Macros are essentially text-replacement, so they run before compilation and have access to information that is lost at compile-time, namly: data-type, array-length. 
+This new method now allowed me to access pre-compilation information.
 
 So my approach changed:
+
 I had the struct ready, but I was now going to create helper functions which the macros would substitute, instead of trying to have one function creating a slice. 
 For that, I made a function to populate the struct and a function which either made a special case for strings, or handled metadata for general-arrays. Once that was done, I got my hands
 dirty in the realm of macro debugging — I defined slice(data) as being a call to the second function I mentioned. I also defined its last parameter as type_flag and used *_Generic()* to
@@ -67,12 +73,14 @@ This is the base-layer of the library, it is a work in progress and for now only
 functions associated with it. 
 
 ## How to use it?
-This compiles to a static library called slice.a, you just need to include the "slice.h" header where the library will be needes, then there are two options:
+As this is meant to be a library, running make creates a static library called slice.a, which can be used along with any programming when compiling.
+
+### Work-flow
 - You can use it as a library and compile your program like this:
 > make (creates library)
 > cc <flags> <program> slice.a
 > ./a.out
-- You can link it to an existing makefile and compile your program as above within your makefile. Which would look something like this:
+- Or link it to an existing makefile and compile your program as above within your makefile. Which would look something like this:
 > ```
 > $(MAKE) slice.a
 > $(CC) $(FLAGS) $(OBJ) slice.a -o $(NAME)
