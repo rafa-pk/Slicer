@@ -8,8 +8,8 @@ getting metadata on things I declare and just be able to call it whenever. So it
 but these memory safety features are just so nice to use... **Why dont I implement them in C?** I immediately started drafting this library.
 
 ## What are slices?
-In most higher-level programming languages, slices serve either as views or containers for data, which allows the user to
-automatically have access to metadata and not have to worry about memory management so much. They work like arrays or strings, but better.
+In most higher-level programming languages, slices serve either as views or containers for data, which allow the user to
+automatically have access to metadata and not have to worry about memory management so much. They work much like arrays or strings, but better.
 As mentioned, they work in two ways:
 - Views: These are simple slices which work as a middle-manager — they contain a pointer to the data and information about it, but
 do not have any type of ownership whatsoever.
