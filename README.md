@@ -73,5 +73,7 @@ This compiles to a static library called slice.a, you just need to include the "
 > cc <flags> <program> slice.a
 > ./a.out
 - You can link it to an existing makefile and compile your program as above within your makefile. Which would look something like this:
+> ```
 > $(MAKE) slice.a
 > $(CC) $(FLAGS) $(OBJ) slice.a -o $(NAME)
+> ```
