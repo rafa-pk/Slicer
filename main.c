@@ -25,5 +25,10 @@ int	main(void)
 	for (int i = 0; i < 2; i++)
 		printf("[%d]: %d, %s  ", i, ((t_test *)struct_arr.data)[i].boolean, ((t_test *)struct_arr.data)[i].name);
 	printf("; length: %zu; capacity: %zu; block size: %zu\n", struct_arr.length, struct_arr.capacity, struct_arr.dt_size);
+
+	free(string.data);
+	free(array.data);
+	free(struct_arr.data);
+
 	return (0);
 }
