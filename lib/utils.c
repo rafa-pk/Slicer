@@ -42,6 +42,7 @@ void	*ft_subslice(void *var, size_t size, size_t from, size_t to)
 	if (!var)
 		return (NULL);
 	size_t	i = 0;
+	size_t	start = size * from;
 	size_t	len = (to - from) * size;
 	unsigned char	*subslice = malloc(len + 1);
 	if (!subslice)
@@ -49,7 +50,10 @@ void	*ft_subslice(void *var, size_t size, size_t from, size_t to)
 	unsigned char	*byte_var = (unsigned char *)var;
 
 	while (i < len)
-		subslice[i++] = byte_var[from++];
+	{
+		subslice[i] = byte_var[start + i];
+		i++;
+	}
 	if (size == 1)
 		subslice[i] = '\0';
 	return (subslice);
