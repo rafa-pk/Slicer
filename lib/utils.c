@@ -37,23 +37,20 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-void	*ft_substr(void *var, size_t from, size_t to)
+void	*ft_subslice(void *var, size_t size, size_t from, size_t to)
 {
-	size_t	i;
-	unsigned char	*substr;
+	if (!var)
+		return (NULL);
+	size_t	i = 0;
+	size_t	len = (to - from) * size;
+	unsigned char	*subslice = malloc(len + 1);
+	if (!subslice)
+		return (NULL);
+	unsigned char	*byte_var = (unsigned char *)var;
 
-	if (!s)
-		return (NULL);
-	i = 0;
-	substr = malloc(var.dt_size + 1);
-	if (!substr)
-		return (NULL);
 	while (i < len)
-	{
-		substr[i] = s[start];
-		i++;
-		start++;
-	}
-	substr[i] = '\0';
-	return (substr, free(substr));
+		subslice[i++] = byte_var[from++];
+	if (size == 1)
+		subslice[i] = '\0';
+	return (subslice);
 }
