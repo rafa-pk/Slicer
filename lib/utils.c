@@ -1,14 +1,5 @@
 #include "slicer.h"
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i = 0;
-
-	while (str[i])
-		i++;
-	return (i);
-}
-
 size_t	round_up(size_t len)
 {
 	size_t	i  = 1;
@@ -20,15 +11,12 @@ size_t	round_up(size_t len)
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	size_t			i;
-	unsigned char	*s;
-	unsigned char	*d;
-
-	i = 0;
 	if (n == 0)
 		return (dest);
-	s = (unsigned char *) src;
-	d = (unsigned char *) dest;
+	size_t			i = 0;
+	unsigned char	*s = (unsigned char *) src;
+	unsigned char	*d = (unsigned char *) dest;
+
 	while (i < n)
 	{
 		d[i] = s[i];
@@ -57,4 +45,13 @@ void	*ft_subslice(void *var, size_t size, size_t from, size_t to)
 	if (size == 1)
 		subslice[i] = '\0';
 	return (subslice);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i = 0;
+	unsigned char	*buff = (unsigned char *) s;
+
+	while (i < n)
+		buff[i++] = '\0';
 }

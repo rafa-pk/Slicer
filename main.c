@@ -50,6 +50,12 @@ int	main(void)
 		printf("[%zu]: %d, %s ", i, ((t_test *)substruct.data)[i].boolean, (((t_test *)substruct.data)[i].name));
 	printf("; length: %zu; capacity: %zu; block size: %zu\n", substruct.length, substruct.capacity, substruct.block_size);
 
+	//Using make
+	t_slice	new = make(int, 5, 8);
+	t_slice	new_new = make(int, 5, elements(7));
+	printf("len: %zu\ncap: %zu\n\n", new.length, new.capacity);
+	printf("len: %zu\ncap: %zu\n\n", new_new.length, new_new.capacity);
+
 	// Freeing slices
 	free(string.data);
 	free(array.data);

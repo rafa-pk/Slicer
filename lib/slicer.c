@@ -11,7 +11,7 @@ t_slice	slice_from(void *data, size_t len, size_t size)
 		.block_size = size,
 		.capacity = cap };
 	if (!slice.data)
-		return (write(1, "Error allocating slice.\n", 24), (t_slice){NULL, 0, 0, 0});
+		return (write(2, "Error allocating slice.\n", 24), (t_slice){NULL, 0, 0, 0});
 	else
 		ft_memcpy(slice.data, data, size * len);
 	return (slice);
@@ -27,6 +27,23 @@ t_slice	slice_split(t_slice var, size_t from, size_t to)
 		.block_size = var.block_size,
 		.capacity = cap };
 	if (!sub_slice.data)
-		return (write(1, "Error creating subslice.\n", 19), (t_slice){NULL, 0, 0, 0});
+		return (write(2, "Error creating subslice.\n", 19), (t_slice){NULL, 0, 0, 0});
 	return (sub_slice);
 }
+
+t_slice	make_slice(size_t size, size_t len, size_t cap)
+{
+	if (cap < len)
+		return (write(2, "Error! Not enough capacity for specified len.\n", 46), (t_slice){NULL, 0, 0, 0});
+	t_slice slice = (t_slice){
+		.data = malloc(size * len),
+		.length = len,
+		.block_size = size,
+		.capacity = cap };
+	if (!slice.data)
+		return (write(2, "Error making slice.\n", 20), (t_slice){NULL, 0, 0, 0});
+	else
+		ft_bzero(slice.data, slice.length);
+	return (slice);
+}
+
